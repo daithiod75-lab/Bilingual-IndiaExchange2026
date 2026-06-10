@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meishu Hitachi Cultural Exchange Portal</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            background-color: #f8fafc;
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="text-slate-800 transition-colors duration-300">
+
+    <div id="app" class="flex flex-col min-h-screen">
+        
+        <!-- Top Navigation Bar -->
+        <header class="sticky top-0 z-40 bg-slate-900 text-white shadow-md px-4 py-3 sm:px-6 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="bg-blue-600 p-2 rounded-lg text-white">
+                    <i class="fa-solid fa-graduation-cap text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-md sm:text-lg font-extrabold tracking-tight">MEISHU GAKUEN HITACHI</h1>
+                    <p class="text-xs text-slate-300 tracking-wide font-medium" data-en="India-Japan Cultural Exchange Portal" data-ja="日印文化交流プログラム ポータル"></p>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <!-- Language Switcher Button -->
+                <button id="langToggle" class="bg-slate-800 hover:bg-slate-700 text-white font-semibold py-1.5 px-3 rounded-full text-xs sm:text-sm border border-slate-700 flex items-center space-x-2 transition-all">
+                    <i class="fa-solid fa-globe text-blue-400"></i>
+                    <span id="langLabel">日本語</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Workspace: Navigation sidebar + Dashboard body -->
+        <div class="flex flex-1 flex-col md:flex-row">
+            
+            <!-- Sidebar Navigation -->
+            <aside class="w-full md:w-64 bg-white border-b md:border-b-0 md:border-r border-slate-200 p-4 shrink-0">
+                <nav class="flex md:flex-col overflow-x-auto md:overflow-x-visible space-x-2 md:space-x-0 md:space-y-1.5 scrollbar-hide pb-2 md:pb-0">
+                    <button onclick="switchTab('dashboard')" class="tab-btn active-tab flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium w-full transition-all">
+                        <i class="fa-solid fa-chart-line text-lg w-6"></i>
+                        <span data-en="Dashboard" data-ja="ダッシュボード"></span>
+                    </button>
+                    <button onclick="switchTab('itinerary')" class="tab-btn flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium w-full transition-all text-slate-600 hover:bg-slate-50">
+                        <i class="fa-solid fa-calendar-days text-lg w-6"></i>
+                        <span data-en="Itinerary Timeline" data-ja="プログラム日程表"></span>
+                    </button>
+                    <button onclick="switchTab('matches')" class="tab-btn flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium w-full transition-all text-slate-600 hover:bg-slate-50">
+                        <i class="fa-solid fa-people-arrows text-lg w-6"></i>
+                        <span data-en="Host Matches" data-ja="ホストファミリー"></span>
+                    </button>
+                    <button onclick="switchTab('timetables')" class="tab-btn flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium w-full transition-all text-slate-600 hover:bg-slate-50">
+                        <i class="fa-solid fa-table-cells text-lg w-6"></i>
+                        <span data-en="Class Timetables" data-ja="クラス時間割"></span>
+                    </button>
+                    <button onclick="switchTab('seminars')" class="tab-btn flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium w-full transition-all text-slate-600 hover:bg-slate-50">
+                        <i class="fa-solid fa-chalkboard-user text-lg w-6"></i>
+                        <span data-en="Special Seminars" data-ja="特別セミナー講義"></span>
+                    </button>
+                    <button onclick="switchTab('japanese')" class="tab-btn flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium w-full transition-all text-slate-600 hover:bg-slate-50">
+                        <i class="fa-solid fa-language text-lg w-6"></i>
+                        <span data-en="Survival Japanese" data-ja="サバイバル日本語"></span>
+                    </button>
+                </nav>
+            </aside>
+
+            <!-- Main Content Container -->
+            <main class="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto max-w-7xl mx-auto w-full">
+                
+                <div id="tab-dashboard" class="tab-content space-y-6">
+                    <!-- Hero Welcomer -->
+                    <div class="bg-gradient-to-r from-blue-900 to-indigo-900 rounded-3xl p-6 sm:p-8 text-white relative overflow-hidden shadow-lg">
+                        <div class="absolute -right-10 -bottom-10 opacity-10 text-[180px] pointer-events-none font-bold">IN</div>
+                        <div class="relative z-10 max-w-2xl">
+                            <span class="bg-blue-600 text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full" data-en="Ibaraki-India Connection" data-ja="茨城・インドの絆"></span>
+                            <h2 class="text-2xl sm:text-4xl font-black mt-3 leading-tight" data-en="India-Japan Cultural Exchange Program 2026" data-ja="日印文化交流プログラム 2026"></h2>
+                            <p class="text-sm sm:text-base text-slate-200 mt-2 font-medium" data-en="Meishu Gakuen Hitachi High School welcomes visiting guests from June 13 to June 23, 2026. Keep track of itineraries, classes, and language programs." data-ja="明秀学園日立高等学校は2026年6月13日から23日まで、インドからの交換留学生を歓迎します。スケジュール、授業、語学研修をすべてリアルタイムで確認できます。"></p>
+                        </div>
+                    </div>
+
+                    <!-- Live Metrics Row -->
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex items-center space-x-4">
+                            <div class="p-3 bg-blue-50 text-blue-600 rounded-xl"><i class="fa-solid fa-user-graduate text-2xl"></i></div>
+                            <div>
+                                <div class="text-2xl font-extrabold">5</div>
+                                <div class="text-xs font-semibold text-slate-500" data-en="Exchange Students" data-ja="留学生数"></div>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex items-center space-x-4">
+                            <div class="p-3 bg-emerald-50 text-emerald-600 rounded-xl"><i class="fa-solid fa-chalkboard-user text-2xl"></i></div>
+                            <div>
+                                <div class="text-2xl font-extrabold">1</div>
+                                <div class="text-xs font-semibold text-slate-500" data-en="Escort Teacher" data-ja="引率教員数"></div>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex items-center space-x-4">
+                            <div class="p-3 bg-amber-50 text-amber-600 rounded-xl"><i class="fa-solid fa-clock text-2xl"></i></div>
+                            <div>
+                                <div class="text-2xl font-extrabold">10</div>
+                                <div class="text-xs font-semibold text-slate-500" data-en="Program Days" data-ja="プログラム期間"></div>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex items-center space-x-4">
+                            <div class="p-3 bg-purple-50 text-purple-600 rounded-xl"><i class="fa-solid fa-hotel text-2xl"></i></div>
+                            <div>
+                                <div class="text-2xl font-extrabold">¥80K+</div>
+                                <div class="text-xs font-semibold text-slate-500" data-en="Teacher Meals Budget" data-ja="引率者諸経費予算"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Navigation & Current Day Tracker -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <!-- Main Schedule Monitor -->
+                        <div class="lg:col-span-2 bg-white rounded-2xl border border-slate-100 shadow-sm p-6 space-y-4">
+                            <div class="flex justify-between items-center">
+                                <h3 class="font-bold text-lg text-slate-900" data-en="Interactive Calendar Assistant" data-ja="スケジュール・アシスタント"></h3>
+                                <select id="dashDateSelector" onchange="loadDashDay()" class="bg-slate-50 border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500">
+                                    <!-- Populated program dates -->
+                                </select>
+                            </div>
+                            <!-- Selected Day Agenda Card -->
+                            <div id="dashDayCard" class="bg-slate-50 rounded-xl p-5 border border-slate-100 relative">
+                                <div class="absolute top-4 right-4 bg-blue-100 text-blue-800 text-xs font-extrabold px-3 py-1 rounded-full uppercase" id="dashDayBadge">Day</div>
+                                <h4 class="text-xl font-extrabold text-blue-900" id="dashDayTitle">Day Title</h4>
+                                <p class="text-xs text-slate-500 font-semibold mt-1" id="dashDayDate">June 13, 2026</p>
+                                <div class="mt-4 border-t border-slate-200 pt-4 space-y-3" id="dashDayEvents">
+                                    <!-- Filled dynamically by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quick Reference Cards -->
+                        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 space-y-4">
+                            <h3 class="font-bold text-lg text-slate-900" data-en="Important Reference Notes" data-ja="管理・運営の連絡事項"></h3>
+                            <div class="space-y-3 text-xs sm:text-sm">
+                                <div class="p-3.5 bg-rose-50 border border-rose-100 rounded-xl flex items-start space-x-3 text-rose-800">
+                                    <i class="fa-solid fa-circle-exclamation text-lg shrink-0 mt-0.5"></i>
+                                    <div>
+                                        <h4 class="font-bold" data-en="June 16 Career Study Logistics" data-ja="6/16 進路見学会のバス運行"></h4>
+                                        <p class="mt-1" data-en="All exchange students and Mr. Sharma must board Class 2-6 bus. Guided all day by Mr. Odonof." data-ja="全留学生および引率教員は2年6組のバスに搭乗します。オドノフ先生が終日引率します。"></p>
+                                    </div>
+                                </div>
+                                <div class="p-3.5 bg-indigo-50 border border-indigo-100 rounded-xl flex items-start space-x-3 text-indigo-800">
+                                    <i class="fa-solid fa-hotel text-lg shrink-0 mt-0.5"></i>
+                                    <div>
+                                        <h4 class="font-bold" data-en="Teacher Lodging Schedule" data-ja="引率シャルマ先生の宿泊予定"></h4>
+                                        <p class="mt-1" data-en="June 13 & 14: Homestay with Odonof. From June 15: Hotel Terrace the Square Hitachi." data-ja="6/13、14：オドノフ先生宅ホームステイ。6/15以降：ホテルテラスザスクエア日立泊。"></p>
+                                    </div>
+                                </div>
+                                <div class="p-3.5 bg-teal-50 border border-teal-100 rounded-xl flex items-start space-x-3 text-teal-800">
+                                    <i class="fa-solid fa-house-chimney-user text-lg shrink-0 mt-0.5"></i>
+                                    <div>
+                                        <h4 class="font-bold" data-en="Special Overnight Adjustments (June 15)" data-ja="6/15 夜の特別調整について"></h4>
+                                        <p class="mt-1" data-en="Boys may stay at Odonof's and Gauri at Sasaki's to secure early departure times for June 16." data-ja="6/16早朝出発に備え、必要に応じて男子2名はオドノフ宅、女子Gauriは佐々木家に15日夜に宿泊。"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab-itinerary" class="tab-content hidden space-y-6">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <div>
+                            <h2 class="text-2xl font-extrabold text-slate-900" data-en="10-Day Master Itinerary" data-ja="10日間のプログラム日程"></h2>
+                            <p class="text-sm text-slate-500" data-en="Filter events and explore host handover, activities, and budget logistics." data-ja="イベントをフィルタリングし、受け渡し、アクティビティ、経費計画の詳細をご確認ください。"></p>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <button onclick="filterItinerary('all')" class="itinerary-filter-btn active-filter px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide border transition-all" data-en="All Days" data-ja="全日程"></button>
+                            <button onclick="filterItinerary('school')" class="itinerary-filter-btn px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide border border-slate-200 bg-white text-slate-600 transition-all" data-en="School Days" data-ja="登校日"></button>
+                            <button onclick="filterItinerary('leisure')" class="itinerary-filter-btn px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide border border-slate-200 bg-white text-slate-600 transition-all" data-en="Excursions & Leisure" data-ja="学外活動・自由日"></button>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Loop Container -->
+                    <div class="relative pl-6 sm:pl-8 border-l-2 border-slate-200 ml-4 space-y-8" id="masterTimeline">
+                        <!-- Filled dynamically by JavaScript -->
+                    </div>
+                </div>
+
+                <div id="tab-matches" class="tab-content hidden space-y-6">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <div>
+                            <h2 class="text-2xl font-extrabold text-slate-900" data-en="Host Matches & Student Profiles" data-ja="ホストファミリー＆留学生マッチング一覧"></h2>
+                            <p class="text-sm text-slate-500" data-en="Verify match configurations, student bios, commuter routes, and travel allocations." data-ja="マッチング状況、プロフィール、通学経路、Suica初期チャージ配分を確認できます。"></p>
+                        </div>
+                        <div class="flex space-x-2">
+                            <input type="text" id="matchSearchInput" onkeyup="filterMatchProfiles()" placeholder="Search names..." class="bg-white border border-slate-200 text-sm font-medium rounded-xl px-4 py-2 outline-none focus:ring-2 focus:ring-blue-500 shadow-sm w-48 sm:w-64">
+                        </div>
+                    </div>
+
+                    <!-- Matches Grid -->
+                    <div class="grid grid-cols-1 xl:grid-cols-2 gap-6" id="matchesGrid">
+                        <!-- Filled dynamically by JavaScript -->
+                    </div>
+                </div>
+
+                <div id="tab-timetables" class="tab-content hidden space-y-6">
+                    <div>
+                        <h2 class="text-2xl font-extrabold text-slate-900" data-en="Host Class Timetables" data-ja="受入クラス別 時間割"></h2>
+                        <p class="text-sm text-slate-500" data-en="Browse through the detailed class timetables for each host student group." data-ja="留学生が在校生と共に受講する授業スケジュールの一覧です。"></p>
+                    </div>
+
+                    <!-- Inner class-selection tabs -->
+                    <div class="flex border-b border-slate-200 overflow-x-auto scrollbar-hide">
+                        <button onclick="switchClassTab('1-2')" class="class-tab-btn active-class border-b-2 border-blue-600 px-6 py-3 font-semibold text-sm text-blue-600 shrink-0">Grade 1, Class 2</button>
+                        <button onclick="switchClassTab('2-1')" class="class-tab-btn px-6 py-3 font-medium text-sm text-slate-500 hover:text-blue-600 shrink-0">Grade 2, Class 1</button>
+                        <button onclick="switchClassTab('2-2')" class="class-tab-btn px-6 py-3 font-medium text-sm text-slate-500 hover:text-blue-600 shrink-0">Grade 2, Class 2</button>
+                        <button onclick="switchClassTab('1-4')" class="class-tab-btn px-6 py-3 font-medium text-sm text-slate-500 hover:text-blue-600 shrink-0">Grade 1, Class 4</button>
+                    </div>
+
+                    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden p-6">
+                        <div id="classHostHeader" class="bg-slate-50 p-4 rounded-xl border border-slate-100 flex items-center justify-between flex-wrap gap-4 mb-6">
+                            <!-- Filled dynamically by JS -->
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                                <thead>
+                                    <tr class="border-b-2 border-slate-100 text-slate-500 font-bold">
+                                        <th class="py-3 px-4 w-28" data-en="Date" data-ja="日付"></th>
+                                        <th class="py-3 px-2">Per 1</th>
+                                        <th class="py-3 px-2">Per 2</th>
+                                        <th class="py-3 px-2">Per 3</th>
+                                        <th class="py-3 px-2">Per 4</th>
+                                        <th class="py-3 px-2">Per 5</th>
+                                        <th class="py-3 px-2">Per 6</th>
+                                        <th class="py-3 px-2">Per 7</th>
+                                        <th class="py-3 px-2" data-en="Afterschool" data-ja="放課後"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="classScheduleBody">
+                                    <!-- Populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab-seminars" class="tab-content hidden space-y-6">
+                    <div class="text-center max-w-2xl mx-auto space-y-2">
+                        <span class="bg-emerald-50 text-emerald-800 text-xs font-bold uppercase px-3 py-1 rounded-full border border-emerald-100" data-en="Global Relations Department" data-ja="国際交流管理部よりお知らせ"></span>
+                        <h2 class="text-3xl font-extrabold text-slate-900" data-en="Special Seminars Led by Indian Escort Teacher" data-ja="インド引率シャルマ先生 特別教養ゼミ"></h2>
+                        <p class="text-slate-500 text-sm sm:text-base" data-en="These lectures are open to Meishu students of all grades. Public absence (公欠) will be granted. Limit of 20 students per session." data-ja="在校生の皆さん、インドのリアルな文化や英語教育について学んでみませんか？学年不問、公欠扱い（定員20名）。"></p>
+                    </div>
+
+                    <!-- Lecture Cards Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="seminarFlyerGrid">
+                        <!-- Card templates populated dynamically -->
+                    </div>
+
+                    <!-- Registration Simulator Workspace -->
+                    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 max-w-3xl mx-auto space-y-6">
+                        <div class="border-b border-slate-100 pb-4">
+                            <h3 class="font-bold text-lg text-slate-900" data-en="Registration Desk Simulator" data-ja="特別セミナー 模擬参加申込み受付"></h3>
+                            <p class="text-xs text-slate-500 mt-1" data-en="Add student registration entries below to simulate filling up classroom seating." data-ja="在校生の参加申込状況をシミュレートできます。登録するとリアルタイムで各講義の空席数が連動します。"></p>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 mb-1" data-en="Full Name (Kana)" data-ja="氏名"></label>
+                                <input type="text" id="regName" placeholder="e.g. 鈴木 一郎" class="bg-slate-50 border border-slate-200 text-sm rounded-xl px-4 py-2 w-full outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 mb-1" data-en="Choose Seminar" data-ja="受講セミナーを選択"></label>
+                                <select id="regSem" class="bg-slate-50 border border-slate-200 text-sm rounded-xl px-3 py-2 w-full outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="seminar-1" data-en="S1: Discover Indian Culture" data-ja="講義1：インドの文化を知ろう！"></option>
+                                    <option value="seminar-2" data-en="S2: Let's Write Hindi!" data-ja="講義2：ヒンディー語を書きましょう"></option>
+                                    <option value="seminar-3" data-en="S3: English Education" data-ja="講義3：インドの英語教育実態"></option>
+                                </select>
+                            </div>
+                            <div class="flex items-end">
+                                <button onclick="submitSeminarRegistration()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm rounded-xl px-6 py-2.5 w-full shadow-sm transition-all flex items-center justify-center space-x-2">
+                                    <i class="fa-solid fa-plus-circle"></i>
+                                    <span data-en="Add Entry" data-ja="予約を追加"></span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Active Registrations list -->
+                        <div class="mt-4">
+                            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2" data-en="Roster Log" data-ja="直近の予約申込ログ"></h4>
+                            <div class="space-y-2 max-h-48 overflow-y-auto" id="registrationLog">
+                                <!-- Appended dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab-japanese" class="tab-content hidden space-y-6">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <div>
+                            <h2 class="text-2xl font-extrabold text-slate-900" data-en="Intensive 'Survival Japanese' Course" data-ja="サバイバル日本語 集中講座教案"></p>
+                            <p class="text-sm text-slate-500" data-en="Click any phrase card to hear native speech synthesis audio." data-ja="各カードをクリックして、ブラウザ標準のリアルな日本語音声を発音してみましょう！"></p>
+                        </div>
+                    </div>
+
+                    <!-- Course Session Grid -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Cards block -->
+                        <div class="space-y-6">
+                            <!-- Section tabs inside course -->
+                            <div class="flex space-x-2 border-b border-slate-100">
+                                <button onclick="switchSession('s1')" class="session-tab-btn active-session border-b-2 border-blue-600 px-4 py-2 font-bold text-xs text-blue-600">Session 1</button>
+                                <button onclick="switchSession('s2')" class="session-tab-btn px-4 py-2 font-semibold text-xs text-slate-500 hover:text-blue-600">Session 2</button>
+                                <button onclick="switchSession('s3')" class="session-tab-btn px-4 py-2 font-semibold text-xs text-slate-500 hover:text-blue-600">Session 3</button>
+                                <button onclick="switchSession('s4')" class="session-tab-btn px-4 py-2 font-semibold text-xs text-slate-500 hover:text-blue-600">Session 4</button>
+                            </div>
+
+                            <!-- Session Details block -->
+                            <div id="sessionDisplayCard" class="bg-white rounded-2xl border border-slate-100 p-6 space-y-4 shadow-sm">
+                                <!-- Populated dynamically by JS -->
+                            </div>
+                        </div>
+
+                        <!-- Interactive Audio Speech Lab -->
+                        <div class="space-y-6">
+                            <!-- Custom Self Introduction Speech generator -->
+                            <div class="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm space-y-4">
+                                <div class="border-b border-slate-100 pb-3">
+                                    <h3 class="font-extrabold text-lg text-slate-900" data-en="Speech Script Builder Wizard" data-ja="自己紹介スピーチ・ビルダー"></h3>
+                                    <p class="text-xs text-slate-500" data-en="Build a custom introduction script below and hit compile to synthesize the speech audio!" data-ja="お好きな言葉を入力してオリジナルの自己紹介フレーズを作成。日本語読み上げが連動します。"></p>
+                                </div>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label class="block text-[11px] font-extrabold text-slate-400 uppercase mb-1" data-en="Your Name" data-ja="名前"></label>
+                                        <input type="text" id="intName" value="Arjun" class="bg-slate-50 border border-slate-200 text-sm rounded-xl px-4 py-2 w-full outline-none focus:ring-2 focus:ring-blue-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[11px] font-extrabold text-slate-400 uppercase mb-1" data-en="Your Age" data-ja="年齢"></label>
+                                        <input type="number" id="intAge" value="16" class="bg-slate-50 border border-slate-200 text-sm rounded-xl px-4 py-2 w-full outline-none focus:ring-2 focus:ring-blue-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[11px] font-extrabold text-slate-400 uppercase mb-1" data-en="Hobby" data-ja="趣味"></label>
+                                        <input type="text" id="intHobby" value="Anime" class="bg-slate-50 border border-slate-200 text-sm rounded-xl px-4 py-2 w-full outline-none focus:ring-2 focus:ring-blue-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[11px] font-extrabold text-slate-400 uppercase mb-1" data-en="Favorite Food" data-ja="好きな日本食"></label>
+                                        <input type="text" id="intFood" value="Soba" class="bg-slate-50 border border-slate-200 text-sm rounded-xl px-4 py-2 w-full outline-none focus:ring-2 focus:ring-blue-500">
+                                    </div>
+                                </div>
+                                <div class="bg-indigo-950 text-indigo-100 rounded-xl p-4 space-y-2 relative">
+                                    <div class="absolute top-3 right-3 text-indigo-400"><i class="fa-solid fa-quote-right text-xl"></i></div>
+                                    <h4 class="text-xs font-bold uppercase tracking-wider text-indigo-400" data-en="Generated Speech Script" data-ja="自動作成されたスピーチ"></h4 >
+                                    <p id="builtJapaneseSpeech" class="text-sm font-semibold tracking-wide leading-relaxed font-sans mt-2">Hajimemashite. Watashi wa Arjun desu. 16 sai desu. Shumi wa Anime desu. Soba ga suki desu. Yoroshiku onegai shimasu.</p>
+                                </div>
+                                <button onclick="playCompiledSpeech()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl text-sm shadow-md transition-all flex items-center justify-center space-x-2">
+                                    <i class="fa-solid fa-circle-play text-lg"></i>
+                                    <span data-en="Play Speech Audio" data-ja="スピーチ音声を再生"></span >
+                                </button>
+                            </div>
+
+                            <!-- Bowing Angel & Bowing Relay Game -->
+                            <div class="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm space-y-4">
+                                <h3 class="font-bold text-lg text-slate-900" data-en="Visual Bowing Relay Calculator" data-ja="お辞儀の角度シミュレーター"></h3>
+                                <p class="text-xs text-slate-500" data-en="Adjust the posture slider below to learn the correct greeting angles." data-ja="スライダーを動かして、お辞儀の種類と適切な挨拶を学んでみましょう。"></p>
+                                
+                                <div class="flex flex-col items-center justify-center py-4 bg-slate-50 rounded-xl relative overflow-hidden">
+                                    <!-- Person stick vector representation dynamically tilted via CSS -->
+                                    <div class="w-32 h-32 flex flex-col items-center justify-center relative">
+                                        <div id="bowingHead" class="w-10 h-10 rounded-full bg-blue-600 border-4 border-white shadow-sm flex items-center justify-center text-white text-xs font-bold relative transition-all duration-300 transform origin-bottom" style="transform: rotate(15deg);">
+                                            <i class="fa-solid fa-face-smile"></i>
+                                        </div>
+                                        <div class="w-2.5 h-16 bg-slate-400 rounded-full mt-1"></div>
+                                    </div>
+                                    <div class="text-center mt-3">
+                                        <div class="text-md font-extrabold text-blue-900" id="bowType">Greeting (15°)</div>
+                                        <div class="text-xs font-semibold text-slate-500" id="bowUsage">Used for casual first impressions.</div>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-1">
+                                    <div class="flex justify-between text-xs font-bold text-slate-400 uppercase">
+                                        <span data-en="Casual (15°)" data-ja="会釈 (15°)"></span>
+                                        <span data-en="Polite (30°)" data-ja="敬礼 (30°)"></span>
+                                        <span data-en="Deep Respect (45°)" data-ja="最敬礼 (45°)"></span>
+                                    </div>
+                                    <input type="range" id="bowSlider" min="15" max="45" step="15" value="15" oninput="calculateBowingAngle()" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+
+        <!-- Footer Info Block -->
+        <footer class="bg-white border-t border-slate-200 px-6 py-4 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-400 font-medium space-y-2 sm:space-y-0">
+            <div>&copy; 2026 Meishu Gakuen Hitachi High School - Global Relations Department</div>
+            <div class="flex space-x-4">
+                <span data-en="India-Japan Cultural Bridge" data-ja="日印文化架け橋交流プロジェクト"></span>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        // Global State Variables
+        let currentLang = 'en'; // Default
+        const defaultMatches = [
+            {
+                id: 1,
+                grade: '2-1',
+                host: { name: 'Ayano Sasaki (佐々木 綾乃)', address: '1315-2 Higashi-Ishikawa, Hitachinaka City (〒312-0052)', commute: 'Train (Katsuta Station ➔ Hitachi Station)', fare: 530 },
+                guest: { name: 'Priyanshi', age: 16, hobbies: 'Art, Reading, Trying new experiences', interests: 'Japanese Culture, Education, Technology', aspirations: 'Wants to experience authentic daily lifestyle, school classrooms, and try regional culinary items.', diet: 'Vegetarian', dream: 'To study abroad and use that knowledge to make her country a better place.', message: 'I am really looking forward to meeting my host family and fellow students!' },
+                suicaInit: 10000,
+                suicaLeft: 10000
+            },
+            {
+                id: 2,
+                grade: '2-2',
+                host: { name: 'Fuki Abe (阿部 楓希)', address: '#304, 1-19-10 Kajimacho, Hitachi City (〒317-0071)', commute: 'Walk (No train commute necessary)', fare: 0 },
+                guest: { name: 'Dev Bhardwaj', age: 16, hobbies: 'Badminton, Reading, Japanese Manga, Chess', interests: 'Modern Japanese Technology, Robotics, People', aspirations: 'Experience advanced engineering hubs and Japanese technology.', diet: 'Vegetarian', dream: 'To become an elite professional badminton player.', message: 'I am excited to make close friends. I have a strong interest in Japanese culture and can\'t wait to learn from you all.' },
+                suicaInit: 3000,
+                suicaLeft: 3000
+            },
+            {
+                id: 3,
+                grade: '1-2',
+                host: { name: 'Reona Akatsu (赤津 蓮桜奈)', address: '1630-180 Isoharacho Isohara, Kitaibaraki City (〒319-1541)', commute: 'Train (Isohara Station ➔ Hitachi Station)', fare: 450 },
+                guest: { name: 'Gauri Jakhar', age: 13, hobbies: 'Dance, Anime, Japanese language study', interests: 'Traditional Japanese Culture, Robotics, Animation', aspirations: 'Wants to build Japanese basic conversational skills.', diet: 'Vegetarian', dream: 'To work as a Data Analyst.', message: 'I am so happy and grateful for this opportunity to visit Japan and meet everyone! I am looking forward to our trip.' },
+                suicaInit: 9000,
+                suicaLeft: 9000
+            },
+            {
+                id: 4,
+                grade: '1-2',
+                host: { name: 'Masahito Tachihara (立原 匡仁)', address: '1326-4 Iijimacho, Mito City (〒311-4155)', commute: 'Train (Akatsuka Station ➔ Hitachi Station)', fare: 720 },
+                guest: { name: 'Dhruv Kumar', age: 16, hobbies: 'Cricket, Chess, Spending time near the ocean', interests: 'Culture, Customs, Advanced technology, Sports', aspirations: 'Experience typical high school homestay life.', diet: 'No restrictions (Eats everything)', dream: 'To become an officer in the Merchant Navy.', message: 'I want to learn many new things in Japan. Please teach me about your culture and country, and I\'ll share mine! I\'m ready for an adventure.' },
+                suicaInit: 12000,
+                suicaLeft: 12000
+            },
+            {
+                id: 5,
+                grade: '1-4',
+                host: { name: 'Karen Sawada (澤田 花恋)', address: '86 Inoue, Yamadamachi, Iwaki City, Fukushima Prefecture (〒312-0052)', commute: 'Train (Nakoso Station ➔ Hitachi Station)', fare: 720 },
+                guest: { name: 'Arjun Jain', age: 16, hobbies: 'Horseback riding, Political Science, History', interests: 'Japanese History, Heritage Landmarks, Social Sciences', aspirations: 'Wants to visit ancient historical locations.', diet: 'Vegetarian', dream: 'To work as a Civil Servant and contribute to national development.', message: 'I want to build warm connections with both students and my host family. Thank you for welcoming me.' },
+                suicaInit: 12000,
+                suicaLeft: 12000
+            }
+        ];
+
+        let matches = [...defaultMatches];
+
+        // Seminars state
+        const seminars = {
+            'seminar-1': { id: 'seminar-1', titleEn: 'Discover Indian Culture', titleJa: 'インドの文化を知ろう！', max: 20, registered: ['Sato Haruto', 'Tanaka Mei', 'Kobayashi Riku'] },
+            'seminar-2': { id: 'seminar-2', titleEn: 'Let\'s Write Hindi!', titleJa: 'ヒンディー語を書きましょう', max: 20, registered: ['Watanabe Ken', 'Ito Aoi'] },
+            'seminar-3': { id: 'seminar-3', titleEn: 'English Education in India', titleJa: 'インドの英語教育実態', max: 20, registered: ['Sasaki Yuki'] }
+        };
+
+        // Master Itinerary Data
+        const itineraryDays = [
+            {
+                id: 1, date: 'June 13 (Sat)', titleEn: 'Arrival & Handover', titleJa: '日本到着・ホストファミリー引渡し', type: 'leisure',
+                events: [
+                    { time: '14:30', descEn: 'Depart Meishu high school for airport via official school cars.', descJa: '学校出発＝公用車（黒田）・プリウス（オドノフ）で成田へ。' },
+                    { time: '16:00', descEn: 'Arrive at Narita International Airport, complete customs/immigration and group check.', descJa: '成田空港到着。入国審査・両替確認。' },
+                    { time: '17:30', descEn: 'Depart airport with visitors. Distribute welcoming snacks and drinks.', descJa: '成田空港出発（到着時には留学生・引率者の飲み物と軽食を用意します、約2000円）。' },
+                    { time: '19:30', descEn: 'Arrive at school. Handover to host families. Distribute itinerary guides and loaded Suica cards.', descJa: '学校到着。留学生をホストファミリーへ引渡し。10日間の英語版計画表とSUICAを配付。' },
+                    { time: 'Night', descEn: 'Indian escort teacher Mr. Sharma travels to homestay with Mr. Odonof.', descJa: '引率のシャルマ先生はオドノフ先生宅にてホームステイを開始。夕食費は学校負担。' }
+                ]
+            },
+            {
+                id: 2, date: 'June 14 (Sun)', titleEn: 'Free Day with Host Families', titleJa: 'ホストファミリー自由日', type: 'leisure',
+                events: [
+                    { time: 'Daylong', descEn: 'Exchange students spend personal relaxing time bonding with host families.', descJa: '留学生はホストファミリー宅で一日を過ごす。' },
+                    { time: 'Afternoon', descEn: 'Excursion to Naka City Environmental Festival to observe Meishu Cheerleading (Blue Fairies).', descJa: '引率教員は那珂市環境フェスティバルへ行き、明秀Blue Fairiesの実演を見学。' },
+                    { time: 'Night', descEn: 'Briefing regarding Meishu presentation delivery; optional local sightseeing.', descJa: 'オドノフ先生宅にて打合せ、希望に応じて日立・水戸周辺を観光（ベジタリアン食事提供）。' }
+                ]
+            },
+            {
+                id: 3, date: 'June 15 (Mon)', titleEn: 'Day 1: School Welcoming', titleJa: '学校1日目：歓迎式典・オリエンテーション', type: 'school',
+                events: [
+                    { time: '08:10', descEn: 'Formal courtesy meeting with Principal in Principal\'s Office.', descJa: '校長挨拶（校長室）。' },
+                    { time: '08:20', descEn: 'Address to staff in Conference Room by visiting escort teacher.', descJa: '引率教員は第一会議室にて全教員に対し挨拶を行う。' },
+                    { time: 'Per 3', descEn: 'Orientation Seminar Room A: School histories and initial system feedback.', descJa: '3限目オリエンテーション（ゼミ室A）。学校紹介と授業制度の意見交換。' },
+                    { time: 'Per 4', descEn: 'Special Seminar 1: "Discover Indian Culture!" with Mr. Sharma.', descJa: '4限目シャルマ先生ゼミ「インドの文化を知りましょう！」（定員20名、公欠）。' },
+                    { time: 'Lunch', descEn: 'Brass Band Club welcome performance. Odonof Bento provided to teacher.', descJa: '昼休み歓迎吹奏楽部演奏会。引率者昼食＝オドノフ弁当。' },
+                    { time: 'Per 6', descEn: 'Survival Japanese I: Breaking barriers, establishing greeting etiquettes.', descJa: '6限目「SURVIVAL JAPANESE I」日本語授業①（ゼミ室B、吉田・オドノフ）。' },
+                    { time: 'Afterschool', descEn: 'Escort teacher hotel check-in (Hotel Terrace the Square Hitachi). Dinner covered by school.', descJa: '放課後部活見学。引率教員をホテルへ送迎しチェックイン。夕食ホテルかファミレス。' }
+                ]
+            },
+            {
+                id: 4, date: 'June 16 (Tue)', titleEn: 'Full-Day Career & University Excursion', titleJa: '進路見学会・大学訪問（終日）', type: 'school',
+                events: [
+                    { time: '07:30', descEn: 'Board Class 2-6 Career Study bus. Guided all day by Mr. Odonof.', descJa: '2学年進路見学会に参加。安全確保のため全員2年6組バスに乗車、オドノフ終日引率。' },
+                    { time: 'Daylong', descEn: 'Visit dynamic university departments and career learning centres.', descJa: '各大学や進学施設への見学・見学会。' },
+                    { time: 'Dinner', descEn: 'Escort teacher meals covered by Meishu budget allocation (¥10,000 allowance).', descJa: '昼食・夕食は学校負担。10000円予算枠。' }
+                ]
+            },
+            {
+                id: 5, date: 'June 17 (Wed)', titleEn: 'Day 2: Academics & Tea Ceremony', titleJa: '学校2日目：英語ライティング協働＆茶道体験', type: 'school',
+                events: [
+                    { time: 'Per 3', descEn: 'Survival Japanese II: Convenience store navigating and shopping practices.', descJa: '3限目「SURVIVAL JAPANESE 2」日本語授業②（コンビニ等での買い物）。' },
+                    { time: 'Per 4', descEn: 'Grade 2 GS Course collaborative English writing project.', descJa: '4限目2学年GSコースAcademic Writing Skills授業。異文化交流し課題作成。' },
+                    { time: 'Per 5', descEn: 'Special Seminar 2: "Let\'s Write Hindi!" by Mr. Sharma.', descJa: '5限目シャルマ先生ゼミ「ヒンディー語を書きましょう」（ゼミ室C、定員20名、公欠）。' },
+                    { time: '15:30', descEn: 'Japanese Tea Ceremony Experience led by Ms. Hishinuma in the Tatami Room.', descJa: '放課後15:30 茶道体験（和室、菱沼先生）。' },
+                    { time: 'Dinner', descEn: 'Teacher bento via local store / restaurant (Budget: ¥3,000).', descJa: '引率者夕食はホテルまたはファミリレストラン。' }
+                ]
+            },
+            {
+                id: 6, date: 'June 18 (Thu)', titleEn: 'Day 3: Soba Making', titleJa: '学校3日目：日本語自己紹介設計＆そば打ち体験', type: 'school',
+                events: [
+                    { time: 'Per 3', descEn: 'Survival Japanese III: Self introduction building block structures.', descJa: '3限目「SURVIVAL JAPANESE 3」日本語授業③（自己紹介コア文構築、黒田・オドノフ）。' },
+                    { time: 'Per 5', descEn: 'Cleaning duties support in respective classrooms.', descJa: '5限目終了後、清掃時間協力。' },
+                    { time: '15:30', descEn: 'Interactive scratch Soba Making in Cooking Room with Mr. Kikuchi.', descJa: '放課後15:30 調理室にて「そば打ち体験」（菊池先生）。手作り調理体験。' }
+                ]
+            },
+            {
+                id: 7, date: 'June 19 (Fri)', titleEn: 'Day 4: Takahagi Campus Tour', titleJa: '学校4日目：高萩キャンパス部活視察＆インド料理夕食', type: 'school',
+                events: [
+                    { time: 'Per 1', descEn: 'Survival Japanese IV: Delivering full unassisted speech. Final session.', descJa: '1限目「SURVIVAL JAPANESE 4」日本語授業④（自己紹介成果発表、黒田・オドノフ）。' },
+                    { time: 'Per 3', descEn: 'Special Seminar 3: "English Pedagogy in India" in Seminar Room C.', descJa: '3限目シャルマ先生ゼミ「英語の教え方」（定員20名、公欠）。' },
+                    { time: 'Per 4', descEn: 'Advanced English Group Exchange (Grade 3, Class 7 / Mr. Odonof).', descJa: '4限目3学年7組「Adv英語」（オドノフ先生）。日本語で発表、異文化交流。' },
+                    { time: 'Afterschool', descEn: 'Travel to Takahagi Campus in school car to inspect sports club setups.', descJa: '放課後公用車で高萩キャンパスへ。部活動の見学を行う。' },
+                    { time: '18:00', descEn: 'Group feast at Namaste Takahagi Indian Restaurant (Allocated budget: ¥12,000).', descJa: '高萩市のインド料理店「ナマステ」へ移動し夕食会（約12,000円予算）。' }
+                ]
+            },
+            {
+                id: 8, date: 'June 20 (Sat)', titleEn: 'Mito Walking Excursion', titleJa: '水戸ウォーキングツアー（終日）', type: 'leisure',
+                events: [
+                    { time: '10:00', descEn: 'Group rendezvous at Mito Station ticket barriers. Led by Mr. Odonof.', descJa: '10:00 水戸駅改札口集合（留学生＋ホスト在校生）。オドノフ引率。' },
+                    { time: 'Midday', descEn: 'Visit Sannomaru Kodokan school (Admission: ¥420 per head).', descJa: '弘道館見学（一人あたり420円）。' },
+                    { time: 'Afternoon', descEn: 'Explore Keisei Department Store and stroll around Lake Senba (Senbako).', descJa: '水戸京成デパート（買い物）、千波湖周辺散策、水戸駅周辺（2nd Street等）自由時間。' },
+                    { time: '17:00', descEn: 'Group disbands. Traditional dinner near City Hall for escort teacher.', descJa: '17:00 解散。引率者の夕食購入（水戸市役所近くのインド料理店、約3000円）。' }
+                ]
+            },
+            {
+                id: 9, date: 'June 21 (Sun)', titleEn: 'Second Free Day', titleJa: 'ホストファミリー自由日②', type: 'leisure',
+                events: [
+                    { time: 'Daylong', descEn: 'Exchange students spend personal quality time with host families.', descJa: '留学生はホストファミリー宅で一日を過ごす。' },
+                    { time: 'Daylong', descEn: 'Escort teacher rest and recovery in Hitachi. Support available if requested.', descJa: '引率教員は日立市で休養。希望があればオドノフがサポート。' }
+                ]
+            },
+            {
+                id: 10, date: 'June 22 (Mon)', titleEn: 'Last Academic Day', titleJa: '学校最終日：剣道実演・授与式典', type: 'school',
+                events: [
+                    { time: 'Lunch', descEn: 'Kendo demonstration in Multi-Purpose Hall (12:45–13:05).', descJa: '昼休み12:45〜13:05 多用途ホールにて「剣道デモンストレーション」（在校生実演）。' },
+                    { time: 'Per 5', descEn: 'Walk to Kamine Shrine to pray for travel safety and returns.', descJa: '5限目神峰神社参拝（安全な帰国を祈願）。' },
+                    { time: 'Per 6', descEn: 'Farewell & Certificate Presentation Ceremony in Principal\'s Office.', descJa: '6限目修了証授与式（校長室、写真撮影）。' },
+                    { time: 'Per 7', descEn: 'Final interactive group activity in Grade 1, Class 4.', descJa: '7限目1年4組での最後の交流授業。' }
+                ]
+            },
+            {
+                id: 11, date: 'June 23 (Tue)', titleEn: 'Departure Day', titleJa: 'プログラム帰国日', type: 'leisure',
+                events: [
+                    { time: 'Per 1-2', descEn: 'Farewells with Grade 3 Classes 6/7. Visitor packing assistance.', descJa: '1・2限目3年6/7組と異文化交流、パッキング準備。' },
+                    { time: '10:40', descEn: 'Depart Meishu high school in school car and Prius alpha.', descJa: '10:40頃学校出発＝公用車（大津）・プリウスα（オドノフ）。' },
+                    { time: '12:30', descEn: 'Arrive at Narita Airport, coordinate flight boarding procedures, bid final farewells.', descJa: '12:30 成田空港到着。チェックイン完了後、見送り、学校帰還。' }
+                ]
+            }
+        ];
+
+        // Class schedules data mapping
+        const classSchedules = {
+            '1-2': {
+                hosting: 'Gauri Jakhar & Dhruv Kumar',
+                homeroom: 'Ms. Hishinuma / Ms. Matsuki',
+                rows: [
+                    { date: '6/15 (Mon)', p1: 'Math I', p2: 'Bio Basics', p3: 'Orientation', p4: 'Special Seminar', p5: 'Geography', p6: 'Survival Jap. I', p7: 'Mod. Lit', after: '—' },
+                    { date: '6/16 (Tue)', p1: 'Career Tour', p2: 'Career Tour', p3: 'Career Tour', p4: 'Career Tour', p5: 'Career Tour', p6: 'Career Tour', p7: 'Career Tour', after: 'Career Tour' },
+                    { date: '6/17 (Wed)', p1: 'Math A', p2: 'English C I', p3: 'Survival Jap. II', p4: 'GS Writing', p5: 'Special Seminar', p6: 'Inquiry', p7: 'Tea Ceremony', after: '15:30 Tea' },
+                    { date: '6/18 (Thu)', p1: 'Info I', p2: 'Mod. Lit', p3: 'Survival Jap. III', p4: 'PE', p5: 'Math I', p6: 'Soba Making', p7: 'Soba Making', after: '15:30 Soba' },
+                    { date: '6/19 (Fri)', p1: 'Survival Jap. IV', p2: 'Chem Basics', p3: 'Special Seminar', p4: 'Presentations', p5: 'Bio Basics', p6: 'Takahagi Visit', p7: 'Takahagi Visit', after: 'Takahagi Campus' },
+                    { date: '6/22 (Mon)', p1: 'Math I', p2: 'Bio Basics', p3: 'Eng C I', p4: 'Math A', p5: 'Kamine Shrine', p6: 'Farewell', p7: 'Gr 1-4 Exchange', after: 'Homeroom' },
+                    { date: '6/23 (Tue)', p1: 'Gr 3-6 Exchange', p2: 'Gr 3-7 Exchange', p3: 'Airport Depart', p4: '—', p5: '—', p6: '—', p7: '—', after: 'Return Flight' }
+                ]
+            },
+            '2-1': {
+                hosting: 'Priyanshi',
+                homeroom: 'Ms. Edanami',
+                rows: [
+                    { date: '6/15 (Mon)', p1: 'Math II', p2: 'Geo Inquiry', p3: 'Orientation', p4: 'Special Seminar', p5: 'Phys/Bio Sci', p6: 'Survival Jap. I', p7: 'Classical Inq', after: '—' },
+                    { date: '6/16 (Tue)', p1: 'Career Tour', p2: 'Career Tour', p3: 'Career Tour', p4: 'Career Tour', p5: 'Career Tour', p6: 'Career Tour', p7: 'Career Tour', after: 'Career Tour' },
+                    { date: '6/17 (Wed)', p1: 'Chemistry', p2: 'Classical Inq', p3: 'Survival Jap. II', p4: 'GS Writing', p5: 'Special Seminar', p6: 'Inquiry', p7: 'Tea Ceremony', after: '15:30 Tea' },
+                    { date: '6/18 (Thu)', p1: 'Phys/Bio Sci', p2: 'Math B', p3: 'Survival Jap. III', p4: 'Geo Inquiry', p5: 'PE', p6: 'Soba Making', p7: 'Soba Making', after: '15:30 Soba' },
+                    { date: '6/19 (Fri)', p1: 'Survival Jap. IV', p2: 'Logic/Exp II', p3: 'Special Seminar', p4: 'Presentations', p5: 'Health', p6: 'Takahagi Visit', p7: 'Takahagi Visit', after: 'Takahagi Campus' },
+                    { date: '6/22 (Mon)', p1: 'Math II', p2: 'Geo Inquiry', p3: 'Chemistry', p4: 'PE', p5: 'Kamine Shrine', p6: 'Farewell', p7: 'Gr 1-4 Exchange', after: 'Homeroom' },
+                    { date: '6/23 (Tue)', p1: 'Gr 3-6 Exchange', p2: 'Gr 3-7 Exchange', p3: 'Airport Depart', p4: '—', p5: '—', p6: '—', p7: '—', after: 'Return Flight' }
+                ]
+            },
+            '2-2': {
+                hosting: 'Dev Bhardwaj',
+                homeroom: 'Mr. Arai',
+                rows: [
+                    { date: '6/15 (Mon)', p1: 'World Hist', p2: 'English C II', p3: 'Orientation', p4: 'Special Seminar', p5: 'Home Econ', p6: 'Survival Jap. I', p7: 'Health', after: '—' },
+                    { date: '6/16 (Tue)', p1: 'Career Tour', p2: 'Career Tour', p3: 'Career Tour', p4: 'Career Tour', p5: 'Career Tour', p6: 'Career Tour', p7: 'Career Tour', after: 'Career Tour' },
+                    { date: '6/17 (Wed)', p1: 'Logical Lit', p2: 'Math II', p3: 'Survival Jap. II', p4: 'GS Writing', p5: 'Special Seminar', p6: 'Inquiry', p7: 'Tea Ceremony', after: '15:30 Tea' },
+                    { date: '6/18 (Thu)', p1: 'Logic/Exp II', p2: 'Literary Lit', p3: 'Survival Jap. III', p4: 'Math B', p5: 'PE', p6: 'Soba Making', p7: 'Soba Making', after: '15:30 Soba' },
+                    { date: '6/19 (Fri)', p1: 'Survival Jap. IV', p2: 'English C II', p3: 'Special Seminar', p4: 'Presentations', p5: 'World Hist', p6: 'Takahagi Visit', p7: 'Takahagi Visit', after: 'Takahagi Campus' },
+                    { date: '6/22 (Mon)', p1: 'World Hist', p2: 'Math II', p3: 'PE', p4: 'Home Econ', p5: 'Kamine Shrine', p6: 'Farewell', p7: 'Gr 1-4 Exchange', after: 'Homeroom' },
+                    { date: '6/23 (Tue)', p1: 'Gr 3-6 Exchange', p2: 'Gr 3-7 Exchange', p3: 'Airport Depart', p4: '—', p5: '—', p6: '—', p7: '—', after: 'Return Flight' }
+                ]
+            },
+            '1-4': {
+                hosting: 'Arjun Jain',
+                homeroom: 'Mr. Sakaguchi',
+                rows: [
+                    { date: '6/15 (Mon)', p1: 'Lang & Cult', p2: 'Info I', p3: 'Orientation', p4: 'Special Seminar', p5: 'Mod. Lit', p6: 'Survival Jap. I', p7: 'Logic/Exp I', after: '—' },
+                    { date: '6/16 (Tue)', p1: 'Career Tour', p2: 'Career Tour', p3: 'Career Tour', p4: 'Career Tour', p5: 'Career Tour', p6: 'Career Tour', p7: 'Career Tour', after: 'Career Tour' },
+                    { date: '6/17 (Wed)', p1: 'Geography', p2: 'Bio Basics', p3: 'Survival Jap. II', p4: 'GS Writing', p5: 'Special Seminar', p6: 'Inquiry', p7: 'Tea Ceremony', after: '15:30 Tea' },
+                    { date: '6/18 (Thu)', p1: 'PE', p2: 'Logic/Exp I', p3: 'Survival Jap. III', p4: 'Math A', p5: 'Mod. Lit', p6: 'Soba Making', p7: 'Soba Making', after: '15:30 Soba' },
+                    { date: '6/19 (Fri)', p1: 'Survival Jap. IV', p2: 'Math I', p3: 'Special Seminar', p4: 'Presentations', p5: 'Chem Basics', p6: 'Takahagi Visit', p7: 'Takahagi Visit', after: 'Takahagi Campus' },
+                    { date: '6/22 (Mon)', p1: 'Geography', p2: 'Math I', p3: 'Info I', p4: 'PE', p5: 'Kamine Shrine', p6: 'Farewell', p7: 'Gr 1-4 Exchange', after: 'Homeroom' },
+                    { date: '6/23 (Tue)', p1: 'Gr 3-6 Exchange', p2: 'Gr 3-7 Exchange', p3: 'Airport Depart', p4: '—', p5: '—', p6: '—', p7: '—', after: 'Return Flight' }
+                ]
+            }
+        };
+
+        // Course Syllabus sessions details
+        const courseSessions = {
+            s1: {
+                titleEn: 'Session 1: Japanese Basics & Essential Greetings',
+                titleJa: '第1回：日本語の基礎と最重要の挨拶',
+                objectiveEn: 'Demystify the language and establish a polite first impression.',
+                objectiveJa: '日本語への抵抗感をなくし、礼儀正しい第一印象を築きます。',
+                phrases: [
+                    { jp: 'おはようございます', ro: 'Ohayou gozaimasu', en: 'Good morning (Polite)' },
+                    { jp: 'こんにちは', ro: 'Konnichiwa', en: 'Hello / Good afternoon' },
+                    { jp: 'こんばんは', ro: 'Konbanwa', en: 'Good evening' },
+                    { jp: 'ありがとうございます', ro: 'Arigatou gozaimasu', en: 'Thank you very much' },
+                    { jp: 'すみません', ro: 'Sumimasen', en: 'Excuse me / I am sorry' }
+                ],
+                activitiesEn: '<b>Katakana Nameplate Making:</b> Write name cards and participate in speed identification matches.<br><b>Bowing Angle Relay:</b> Form team columns and bow correctly at respective angles matching specific times.',
+                activitiesJa: '<b>カタカナ名札作り：</b>名前を探し出し、名札を作成してゲームで対決します。<br><b>お辞儀リレー：</b>時間設定に応じた正しい角度のお辞儀をリレー形式で実践。'
+            },
+            s2: {
+                titleEn: 'Session 2: Navigating the Town (Shopping & Numbers)',
+                titleJa: '第2回：街歩き（買い物と数字の活用）',
+                objectiveEn: 'Count from 1 to 10,000 and complete purchases at a local convenience store.',
+                objectiveJa: '1から万単位の数字を練習し、日本のコンビニでスムーズに購入を体験。',
+                phrases: [
+                    { jp: 'これはいくらですか？', ro: 'Kore wa ikura desu ka?', en: 'How much is this?' },
+                    { jp: 'これをください', ro: 'Kore wo kudasai', en: 'I will take this, please' },
+                    { jp: 'お会計をお願いします', ro: 'Okaikei wo onegai shimasu', en: 'Check / Bill, please' },
+                    { jp: 'カードは使えますか？', ro: 'Kaado wa tsukaemasu ka?', en: 'Can I use a credit card?' }
+                ],
+                activitiesEn: '<b>Chopstick Counting Challenge:</b> Pick beans using chopsticks while counting aloud in Japanese.<br><b>The ¥1,000 Shop Simulation:</b> Practice budget shopping calculations with snacks.',
+                activitiesJa: '<b>お箸で数えよう：</b>豆を箸で移しながら日本語で数えます。<br><b>1000円模擬ショップ：</b>1000円以内の予算でお菓子のシミュレーション購入。'
+            },
+            s3: {
+                titleEn: 'Session 3: Self-Introduction Core',
+                titleJa: '第3回：自己紹介（アイデンティティと嗜好）',
+                objectiveEn: 'Formulate basic identity sentences including age, origins, and hobbies.',
+                objectiveJa: '名前、年齢、趣味などの基礎項目を文法に当てはめて作文します。',
+                phrases: [
+                    { jp: 'はじめまして', ro: 'Hajimemashite', en: 'Nice to meet you (First time)' },
+                    { jp: 'わたしは［名前］です', ro: 'Watashi wa [Name] desu', en: 'I am [Name]' },
+                    { jp: '［趣味］が好きです', ro: '[Hobby] ga suki desu', en: 'I like [Hobby]' },
+                    { jp: '［食べ物］はちょっと...', ro: '[Food] wa chotto...', en: 'I am not fond of [Food] (Polite decline)' }
+                ],
+                activitiesEn: '<b>Pass the Ball Introduction:</b> Rapid round circle ball passing while stating Japanese facts.<br><b>Corners Game:</b> Class divides into Suki / Chotto zones based on Japanese foods.',
+                activitiesJa: '<b>紹介サークル：</b>ボールを回し、受け取った人が日本語で情報を1つ発表します。<br><b>好き・苦手コーナー：</b>食材が読み上げられ「好き」「ちょっと...」のエリアに移動。'
+            },
+            s4: {
+                titleEn: 'Session 4: Future Aspirations & Grand Finale',
+                titleJa: '第4回：将来の夢の表現と最終発表会',
+                objectiveEn: 'State future job intentions and complete an unassisted self-introduction speech.',
+                objectiveJa: '将来の目標（職種など）を付け加え、完全な自己紹介スピーチを完成。',
+                phrases: [
+                    { jp: '将来、［仕事］をがんばりたいです', ro: 'Shourai [Job] wo ganbaritai desu', en: 'In the future, I want to work hard as a [Job]' },
+                    { jp: '日本に来られて嬉しいです', ro: 'Nihon ni korarete ureshii desu', en: 'I am happy to have come to Japan' },
+                    { jp: 'よろしくお願いします', ro: 'Yoroshiku onegai shimasu', en: 'Please look after me (Polite closing)' }
+                ],
+                activitiesEn: '<b>Future Origami Crafts:</b> Write dreams inside paper airplanes/cranes and fold.<br><b>The Souvenir Exchange:</b> Deliver complete introductions without scripts to win candies.',
+                activitiesJa: '<b>未来の折り紙：</b>将来の夢を折り紙の裏に書き、鶴などを折ります。<br><b>お土産交換会：</b>メモなしでスピーチ完遂後、シールや飴を受け取ります。'
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initLanguageToggle();
+            populateDashDateSelector();
+            renderItinerary('all');
+            renderMatches();
+            switchClassTab('1-2');
+            renderSeminars();
+            switchSession('s1');
+            calculateBowingAngle();
+            updateLanguageDisplay();
+        });
+
+        // Language toggle setup
+        function initLanguageToggle() {
+            const toggle = document.getElementById('langToggle');
+            const label = document.getElementById('langLabel');
+            toggle.addEventListener('click', () => {
+                currentLang = currentLang === 'en' ? 'ja' : 'en';
+                label.textContent = currentLang === 'en' ? '日本語' : 'English';
+                updateLanguageDisplay();
+                populateDashDateSelector();
+                loadDashDay();
+                renderItinerary('all');
+                renderMatches();
+                renderClassSchedule();
+                renderSeminars();
+                const activeSessionId = document.querySelector('.session-tab-btn.active-session').getAttribute('onclick').match(/'([^']+)'/)[1];
+                switchSession(activeSessionId);
+            });
+        }
+
+        // Language Update Function
+        function updateLanguageDisplay() {
+            document.querySelectorAll('[data-en]').forEach(el => {
+                const en = el.getAttribute('data-en');
+                const ja = el.getAttribute('data-ja');
+                if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                    el.placeholder = currentLang === 'en' ? en : ja;
+                } else {
+                    el.innerHTML = currentLang === 'en' ? en : ja;
+                }
+            });
+        }
+
+        // Tab Switching
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active-tab', 'bg-blue-50', 'text-blue-600', 'font-semibold');
+                btn.classList.add('text-slate-600', 'hover:bg-slate-50');
+            });
+
+            // Find clicked button
+            const activeBtn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.getAttribute('onclick').includes(`'${tabId}'`));
+            if (activeBtn) {
+                activeBtn.classList.remove('text-slate-600', 'hover:bg-slate-50');
+                activeBtn.classList.add('active-tab', 'bg-blue-50', 'text-blue-600', 'font-semibold');
+            }
+        }
+
+        // Populating Date Selector on Dashboard
+        function populateDashDateSelector() {
+            const selector = document.getElementById('dashDateSelector');
+            selector.innerHTML = '';
+            itineraryDays.forEach(day => {
+                const opt = document.createElement('option');
+                opt.value = day.id;
+                opt.textContent = currentLang === 'en' ? day.date : day.date.replace('Sat','土').replace('Sun','日').replace('Mon','月').replace('Tue','火').replace('Wed','水').replace('Thu','木').replace('Fri','金');
+                selector.appendChild(opt);
+            });
+        }
+
+        // Load Agenda day on Dashboard card
+        function loadDashDay() {
+            const val = document.getElementById('dashDateSelector').value;
+            const day = itineraryDays.find(d => d.id == val);
+            if (!day) return;
+
+            document.getElementById('dashDayBadge').textContent = currentLang === 'en' ? `Day ${day.id}` : `第 ${day.id} 日`;
+            document.getElementById('dashDayTitle').textContent = currentLang === 'en' ? day.titleEn : day.titleJa;
+            document.getElementById('dashDayDate').textContent = day.date;
+
+            const eventsBox = document.getElementById('dashDayEvents');
+            eventsBox.innerHTML = '';
+            day.events.forEach(ev => {
+                const row = document.createElement('div');
+                row.className = 'flex items-start space-x-3 text-xs sm:text-sm';
+                row.innerHTML = `
+                    <span class="bg-blue-100 text-blue-900 font-extrabold text-[11px] px-2 py-0.5 rounded shrink-0">${ev.time}</span>
+                    <p class="text-slate-700 font-medium leading-relaxed">${currentLang === 'en' ? ev.descEn : ev.descJa}</p>
+                `;
+                eventsBox.appendChild(row);
+            });
+        }
+
+        function renderItinerary(filter) {
+            const box = document.getElementById('masterTimeline');
+            box.innerHTML = '';
+
+            const filteredDays = itineraryDays.filter(d => filter === 'all' || d.type === filter);
+
+            filteredDays.forEach(day => {
+                const dayCard = document.createElement('div');
+                dayCard.className = 'relative mb-6 bg-white p-5 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-all';
+                
+                // Timeline dot
+                const dot = document.createElement('div');
+                dot.className = `absolute -left-[31px] sm:-left-[39px] top-6 w-4 h-4 rounded-full border-4 border-white shadow-sm ${day.type === 'school' ? 'bg-blue-600' : 'bg-emerald-600'}`;
+                
+                let eventsHtml = '';
+                day.events.forEach(ev => {
+                    eventsHtml += `
+                        <div class="flex items-start space-x-3 py-1.5 border-b border-slate-50 last:border-0">
+                            <span class="bg-slate-100 text-slate-800 font-bold text-[11px] px-2 py-0.5 rounded shrink-0 mt-0.5">${ev.time}</span>
+                            <p class="text-xs sm:text-sm text-slate-600 font-medium">${currentLang === 'en' ? ev.descEn : ev.descJa}</p>
+                        </div>
+                    `;
+                });
+
+                dayCard.innerHTML = `
+                    <div class="flex justify-between items-start flex-wrap gap-2 mb-2">
+                        <div>
+                            <span class="text-xs font-bold text-blue-600 tracking-wide">${day.date}</span>
+                            <h3 class="text-lg font-extrabold text-slate-900 mt-0.5">${currentLang === 'en' ? day.titleEn : day.titleJa}</h3>
+                        </div>
+                        <span class="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider ${day.type === 'school' ? 'bg-blue-50 text-blue-700 border border-blue-100' : 'bg-emerald-50 text-emerald-700 border border-emerald-100'}">
+                            ${currentLang === 'en' ? day.type : (day.type === 'school' ? '登校日' : '学外活動/自由')}
+                        </span>
+                    </div>
+                    <div class="mt-4 space-y-2">
+                        ${eventsHtml}
+                    </div>
+                `;
+                dayCard.appendChild(dot);
+                box.appendChild(dayCard);
+            });
+        }
+
+        function filterItinerary(type) {
+            document.querySelectorAll('.itinerary-filter-btn').forEach(btn => {
+                btn.classList.remove('active-filter', 'bg-blue-600', 'text-white', 'border-blue-600');
+                btn.classList.add('border-slate-200', 'bg-white', 'text-slate-600');
+            });
+
+            // Find button
+            const activeBtn = Array.from(document.querySelectorAll('.itinerary-filter-btn')).find(b => b.getAttribute('onclick').includes(`'${type}'`));
+            if (activeBtn) {
+                activeBtn.classList.remove('border-slate-200', 'bg-white', 'text-slate-600');
+                activeBtn.classList.add('active-filter', 'bg-blue-600', 'text-white', 'border-blue-600');
+            }
+
+            renderItinerary(type);
+        }
+
+        function renderMatches() {
+            const grid = document.getElementById('matchesGrid');
+            grid.innerHTML = '';
+
+            matches.forEach(m => {
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-3xl border border-slate-100 shadow-sm p-6 space-y-6 hover:shadow-md transition-all relative overflow-hidden';
+                
+                // Render initials for profiles
+                const hostInitials = m.host.name.split(' ')[0].substring(0, 2);
+                const guestInitials = m.guest.name.substring(0, 2);
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-4">
+                        <span class="bg-blue-50 text-blue-800 text-xs font-bold px-3 py-1 rounded-full border border-blue-100">${currentLang==='en'?`Hosting Class: Grade ${m.grade}`:`受入： ${m.grade}`}</span>
+                        <div class="text-right">
+                            <span class="text-[11px] font-bold text-slate-400 uppercase block">${currentLang==='en'?'Suica Commuter Funds':'通学定期SUICA初期配分'}</span>
+                            <span class="text-md font-extrabold text-indigo-700">¥${m.suicaInit.toLocaleString()}</span>
+                        </div>
+                    </div>
+
+                    <!-- Host <--> Guest Double Profile row -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 relative">
+                        <!-- Host profile card segment -->
+                        <div class="space-y-3 bg-slate-50 p-4 rounded-2xl relative border border-slate-100">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 rounded-full bg-blue-600 text-white font-black text-xs flex items-center justify-center">${hostInitials}</div>
+                                <div>
+                                    <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wide">${currentLang==='en'?'Host Family Student':'受入在校生'}</h4>
+                                    <h3 class="text-sm font-extrabold text-slate-800">${m.host.name}</h3>
+                                </div>
+                            </div>
+                            <div class="text-xs space-y-1.5 text-slate-600 pt-1">
+                                <p><strong>${currentLang==='en'?'Address':'住所'}:</strong> ${m.host.address}</p>
+                                <p><strong>${currentLang==='en'?'Route':'通学手段'}:</strong> ${m.host.commute}</p>
+                            </div>
+                        </div>
+
+                        <!-- Guest profile card segment -->
+                        <div class="space-y-3 bg-indigo-50 p-4 rounded-2xl relative border border-indigo-100">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 rounded-full bg-indigo-600 text-indigo-100 font-black text-xs flex items-center justify-center">${guestInitials}</div>
+                                <div>
+                                    <h4 class="text-xs font-bold text-indigo-400 uppercase tracking-wide">${currentLang==='en'?'Indian Exchange Student':'インド交換留学生'}</h4>
+                                    <h3 class="text-sm font-extrabold text-indigo-900">${m.guest.name} (${m.guest.age} y/o)</h3>
+                                </div>
+                            </div>
+                            <div class="text-xs space-y-1 text-indigo-950 pt-1">
+                                <p><strong>${currentLang==='en'?'Hobbies':'趣味'}:</strong> ${m.guest.hobbies}</p>
+                                <p><strong>${currentLang==='en'?'Interests':'興味分野'}:</strong> ${m.guest.interests}</p>
+                                <p><strong>${currentLang==='en'?'Dietary':'食事制限'}:</strong> <span class="bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded text-[10px] font-bold">${m.guest.diet}</span></p>
+                                <p><strong>${currentLang==='en'?'Future Dream':'将来の夢'}:</strong> ${m.guest.dream}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Suica Card Balance Simulator -->
+                    <div class="bg-indigo-950 text-indigo-100 rounded-2xl p-4 flex flex-col sm:flex-row justify-between items-center gap-3">
+                        <div class="flex items-center space-x-3 text-center sm:text-left">
+                            <i class="fa-solid fa-address-card text-2xl text-indigo-400"></i>
+                            <div>
+                                <h4 class="text-[10px] font-bold uppercase text-indigo-400">${currentLang==='en'?'Dynamic Suica Expense Simulator':'SUICAカード残高模擬シミュレーター'}</h4>
+                                <p class="text-xs font-semibold">${currentLang==='en'?`Commuter Fare: ¥${m.host.fare} / trip`:`片道通学運賃： ¥${m.host.fare}`}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="text-right">
+                                <span class="text-[9px] font-bold text-indigo-400 uppercase block">${currentLang==='en'?'Current Balance':'現在残高'}</span>
+                                <span class="text-lg font-black text-white" id="bal-${m.id}">¥${m.suicaLeft.toLocaleString()}</span>
+                            </div>
+                            <button onclick="simulateCommute(${m.id}, ${m.host.fare})" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs py-1.5 px-3 rounded-xl transition-all shadow">
+                                ${currentLang==='en'?'Simulate Trip':'乗車'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Live calculation simulating Suica trip card deduction
+        function simulateCommute(matchId, fare) {
+            const match = matches.find(m => m.id === matchId);
+            if (!match) return;
+
+            if (match.suicaLeft >= fare) {
+                match.suicaLeft -= fare;
+                document.getElementById(`bal-${matchId}`).textContent = `¥${match.suicaLeft.toLocaleString()}`;
+                if (match.suicaLeft < fare) {
+                    // Quick feedback
+                    document.getElementById(`bal-${matchId}`).classList.add('text-rose-400');
+                }
+            } else {
+                // Out of balance feedback
+                alert(currentLang === 'en' ? "Insufficient Suica balance! Recharging from administrative ledger required." : "SUICAカード残金が不足しています！学校でのチャージが必要です。");
+            }
+        }
+
+        // Live matching filter search logic
+        function filterMatchProfiles() {
+            const q = document.getElementById('matchSearchInput').value.toLowerCase();
+            const filtered = defaultMatches.filter(m => 
+                m.host.name.toLowerCase().includes(q) || 
+                m.guest.name.toLowerCase().includes(q) ||
+                m.grade.includes(q)
+            );
+            matches = filtered;
+            renderMatches();
+        }
+
+        let selectedClassTab = '1-2';
+
+        function switchClassTab(classId) {
+            selectedClassTab = classId;
+            document.querySelectorAll('.class-tab-btn').forEach(btn => {
+                btn.classList.remove('active-class', 'border-b-2', 'border-blue-600', 'text-blue-600', 'font-semibold');
+                btn.classList.add('text-slate-500');
+            });
+
+            // Find clicked button
+            const activeBtn = Array.from(document.querySelectorAll('.class-tab-btn')).find(b => b.getAttribute('onclick').includes(`'${classId}'`));
+            if (activeBtn) {
+                activeBtn.classList.remove('text-slate-500');
+                activeBtn.classList.add('active-class', 'border-b-2', 'border-blue-600', 'text-blue-600', 'font-semibold');
+            }
+
+            renderClassSchedule();
+        }
+
+        function renderClassSchedule() {
+            const data = classSchedules[selectedClassTab];
+            if (!data) return;
+
+            // Render Header Segment
+            const header = document.getElementById('classHostHeader');
+            header.innerHTML = `
+                <div>
+                    <h3 class="text-md font-extrabold text-blue-900">${currentLang==='en'?'Hosting Assignment Details':'クラス受入・担任情報'}</h3>
+                    <p class="text-xs text-slate-500 mt-0.5"><strong>${currentLang==='en'?'Homeroom Teachers':'ホームルーム担任教員'}:</strong> ${data.homeroom}</p>
+                </div>
+                <div class="bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1.5 rounded-lg border border-blue-200 flex items-center space-x-1">
+                    <i class="fa-solid fa-circle-user"></i>
+                    <span><strong>${currentLang==='en'?'Assigned Guests':'受入留学生'}:</strong> ${data.hosting}</span>
+                </div>
+            `;
+
+            // Render Rows list
+            const body = document.getElementById('classScheduleBody');
+            body.innerHTML = '';
+
+            data.rows.forEach(r => {
+                const tr = document.createElement('tr');
+                tr.className = 'border-b border-slate-100 hover:bg-slate-50 transition-colors text-slate-700 font-medium';
+                
+                // Formulate row cells content
+                tr.innerHTML = `
+                    <td class="py-3.5 px-4 font-bold text-slate-900">${r.date}</td>
+                    <td class="py-3.5 px-2">${r.p1}</td>
+                    <td class="py-3.5 px-2">${r.p2}</td>
+                    <td class="py-3.5 px-2 font-semibold text-blue-600">${r.p3}</td>
+                    <td class="py-3.5 px-2 font-semibold text-indigo-600">${r.p4}</td>
+                    <td class="py-3.5 px-2">${r.p5}</td>
+                    <td class="py-3.5 px-2 font-semibold text-purple-600">${r.p6}</td>
+                    <td class="py-3.5 px-2">${r.p7}</td>
+                    <td class="py-3.5 px-2 text-slate-500 text-xs">${r.after}</td>
+                `;
+                body.appendChild(tr);
+            });
+        }
+
+        function renderSeminars() {
+            const grid = document.getElementById('seminarFlyerGrid');
+            grid.innerHTML = '';
+
+            Object.values(seminars).forEach(sem => {
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-3xl border border-slate-100 shadow-sm p-6 space-y-4 hover:shadow-md transition-all relative overflow-hidden flex flex-col justify-between';
+                
+                // Color codes
+                let colorClass = 'from-blue-500 to-indigo-600 text-white';
+                let icon = 'fa-earth-asia';
+                if (sem.id === 'seminar-2') {
+                    colorClass = 'from-amber-500 to-orange-600 text-white';
+                    icon = 'fa-pen-clip';
+                } else if (sem.id === 'seminar-3') {
+                    colorClass = 'from-emerald-500 to-teal-600 text-white';
+                    icon = 'fa-language';
+                }
+
+                const currentCount = sem.registered.length;
+                const pct = (currentCount / sem.max) * 100;
+
+                card.innerHTML = `
+                    <div class="space-y-4">
+                        <div class="bg-gradient-to-r ${colorClass} p-4 rounded-2xl relative overflow-hidden">
+                            <div class="absolute -right-4 -bottom-4 opacity-15 text-6xl"><i class="fa-solid ${icon}"></i></div>
+                            <h4 class="text-[10px] font-bold uppercase tracking-wider opacity-85">${currentLang==='en'?'Interactive Seminar Capsule':'体験教養セミナー'}</h4>
+                            <h3 class="text-md font-black mt-1">${currentLang === 'en' ? sem.titleEn : sem.titleJa}</h3>
+                        </div>
+
+                        <div class="space-y-1.5 text-xs">
+                            <div class="flex justify-between text-slate-500 font-semibold">
+                                <span data-en="Classroom Capacity" data-ja="参加予約定員"></span>
+                                <span class="font-extrabold text-slate-800">${currentCount} / ${sem.max} (${currentLang === 'en' ? 'Seats Taken' : '予約済'})</span>
+                            </div>
+                            <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                                <div class="bg-indigo-600 h-full rounded-full transition-all duration-300" style="width: ${pct}%"></div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-1">
+                            <h4 class="text-[10px] font-bold text-slate-400 uppercase tracking-wide" data-en="Registered Roster" data-ja="参加者リスト (模擬)"></h4>
+                            <div class="flex flex-wrap gap-1">
+                                ${sem.registered.map(r => `<span class="bg-slate-50 text-slate-600 font-semibold text-[10px] px-2 py-0.5 border border-slate-100 rounded-full">${r}</span>`).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+            updateLanguageDisplay();
+        }
+
+        function submitSeminarRegistration() {
+            const nameInput = document.getElementById('regName');
+            const semSelect = document.getElementById('regSem');
+            const name = nameInput.value.trim();
+            const semId = semSelect.value;
+
+            if (!name) {
+                alert(currentLang === 'en' ? "Please input a valid name." : "申込用の生徒氏名を入力してください。");
+                return;
+            }
+
+            const sem = seminars[semId];
+            if (sem.registered.length >= sem.max) {
+                alert(currentLang === 'en' ? "This seminar is currently full!" : "こちらの講義は満席です！");
+                return;
+            }
+
+            // Push registration
+            sem.registered.push(name);
+            nameInput.value = '';
+
+            // Update roster and list log
+            const log = document.getElementById('registrationLog');
+            const logEntry = document.createElement('div');
+            logEntry.className = 'bg-slate-50 border border-slate-100 p-2 rounded-xl text-xs flex justify-between items-center text-slate-600 font-medium';
+            logEntry.innerHTML = `
+                <span><i class="fa-solid fa-circle-check text-emerald-500 mr-2"></i><strong>${name}</strong> registered for ${currentLang === 'en' ? sem.titleEn : sem.titleJa}</span>
+                <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">${new Date().toLocaleTimeString()}</span>
+            `;
+            log.insertBefore(logEntry, log.firstChild);
+
+            renderSeminars();
+        }
+
+        function switchSession(sessId) {
+            document.querySelectorAll('.session-tab-btn').forEach(btn => {
+                btn.classList.remove('active-session', 'border-b-2', 'border-blue-600', 'text-blue-600', 'font-bold');
+                btn.classList.add('text-slate-500', 'hover:text-blue-600');
+            });
+
+            // Find clicked button
+            const activeBtn = Array.from(document.querySelectorAll('.session-tab-btn')).find(b => b.getAttribute('onclick').includes(`'${sessId}'`));
+            if (activeBtn) {
+                activeBtn.classList.remove('text-slate-500', 'hover:text-blue-600');
+                activeBtn.classList.add('active-session', 'border-b-2', 'border-blue-600', 'text-blue-600', 'font-bold');
+            }
+
+            const sess = courseSessions[sessId];
+            if (!sess) return;
+
+            const disp = document.getElementById('sessionDisplayCard');
+            disp.innerHTML = `
+                <div>
+                    <h3 class="text-lg font-extrabold text-blue-950">${currentLang === 'en' ? sess.titleEn : sess.titleJa}</h3>
+                    <p class="text-xs text-slate-500 mt-1 font-semibold">${currentLang === 'en' ? `Objective: ${sess.objectiveEn}` : `学習目標： ${sess.objectiveJa}`}</p>
+                </div>
+
+                <div class="space-y-3.5 pt-3">
+                    <h4 class="text-[11px] font-bold text-slate-400 uppercase tracking-wide" data-en="Interactive Phrasebook (Hear Native Japanese Speech)" data-ja="最重要サバイバル語彙・表現 (クリックで発音)"></h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        ${sess.phrases.map(p => `
+                            <div onclick="speakJp('${p.jp}')" class="bg-slate-50 hover:bg-indigo-50 hover:border-indigo-200 border border-slate-100 rounded-2xl p-3.5 cursor-pointer flex justify-between items-center transition-all group shadow-sm">
+                                <div>
+                                    <h4 class="text-md font-bold text-slate-900 group-hover:text-indigo-900">${p.jp}</h4>
+                                    <p class="text-[11px] font-bold text-slate-400 tracking-wide mt-0.5">${p.ro}</p>
+                                    <p class="text-xs text-slate-600 font-medium mt-1">${p.en}</p>
+                                </div>
+                                <div class="p-2 bg-white text-slate-400 group-hover:bg-indigo-600 group-hover:text-white rounded-full shadow-sm transition-all">
+                                    <i class="fa-solid fa-volume-high text-xs"></i>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+
+                <div class="border-t border-slate-100 pt-4 mt-2">
+                    <h4 class="text-[11px] font-bold text-slate-400 uppercase tracking-wide" data-en="Interactive Activities & Games" data-ja="授業内の体験型活動とゲーム"></h4>
+                    <p class="text-xs text-slate-700 leading-relaxed font-semibold mt-1.5 bg-slate-50 p-3 rounded-xl border border-slate-100">
+                        ${currentLang === 'en' ? sess.activitiesEn : sess.activitiesJa}
+                    </p>
+                </div>
+            `;
+            updateLanguageDisplay();
+        }
+
+        // Web Speech API text-to-speech for Japanese language
+        function speakJp(txt) {
+            if ('speechSynthesis' in window) {
+                // Cancel ongoing synthesis
+                window.speechSynthesis.cancel();
+                const ut = new SpeechSynthesisUtterance(txt);
+                ut.lang = 'ja-JP';
+                ut.rate = 0.85; // Slightly slower for language learners
+                window.speechSynthesis.speak(ut);
+            } else {
+                alert("Speech Synthesis is not supported in this browser.");
+            }
+        }
+
+        // Dynamic Self Introduction speech script compilation
+        function playCompiledSpeech() {
+            const name = document.getElementById('intName').value || 'Arjun';
+            const age = document.getElementById('intAge').value || '16';
+            const hobby = document.getElementById('intHobby').value || 'Anime';
+            const food = document.getElementById('intFood').value || 'Soba';
+
+            // Kanji compilation
+            const speechText = `はじめまして。わたしは${name}です。${age}さいです。しゅみは${hobby}です。日本の${food}がすきです。よろしくお願いします。`;
+            
+            // Render on speech card block
+            document.getElementById('builtJapaneseSpeech').innerHTML = `
+                <strong>Kanji/Kana:</strong> ${speechText}<br>
+                <span class="text-indigo-300 text-xs mt-1 block">Hajimemashite. Watashi wa ${name} desu. ${age}-sai desu. Shumi wa ${hobby} desu. Nihon no ${food} ga suki desu. Yoroshiku onegai shimasu.</span>
+            `;
+
+            speakJp(speechText);
+        }
+
+        function calculateBowingAngle() {
+            const val = document.getElementById('bowSlider').value;
+            const head = document.getElementById('bowingHead');
+            
+            // Tilt head base element
+            head.style.transform = `rotate(${val}deg)`;
+
+            const title = document.getElementById('bowType');
+            const desc = document.getElementById('bowUsage');
+
+            if (val == 15) {
+                title.textContent = currentLang === 'en' ? "Greeting (Eshaku - 15°)" : "会釈 (15度)";
+                desc.textContent = currentLang === 'en' 
+                    ? "Used for casual greeting and simple daily high school encounters." 
+                    : "廊下での挨拶や日常の軽い敬意の表現に使用します。";
+            } else if (val == 30) {
+                title.textContent = currentLang === 'en' ? "Polite Bow (Keirei - 30°)" : "敬礼 (30度)";
+                desc.textContent = currentLang === 'en' 
+                    ? "Traditional formal posture. Used when greeting class teachers or hosts." 
+                    : "最も一般的なお辞儀。担任の先生やホストへの挨拶に最適。";
+            } else {
+                title.textContent = currentLang === 'en' ? "Deep Respect Bow (Saikeirei - 45°)" : "最敬礼 (45度)";
+                desc.textContent = currentLang === 'en' 
+                    ? "Deepest respect. Reserved for formal welcoming ceremonies and principals." 
+                    : "最も深い敬意。歓迎式典の開始時や校長先生に挨拶する際に使用。";
+            }
+        }
+    </script>
+</body>
+</html>
